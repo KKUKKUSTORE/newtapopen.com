@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewTabOpen - 여러 URL 한번에 열기</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .orange-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+            position: relative;
+        }
+
+        .orange-icon::before {
+            content: '🍊';
+            font-size: 35px;
+        }
+
+        .logo-text {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(255, 140, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            flex: 1;
+        }
+
+        .input-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .url-input {
+            width: 100%;
+            min-height: 300px;
+            padding: 15px;
+            border: 2px solid #ffcc99;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+        }
+
+        .url-input::placeholder {
+            color: #aaa;
+        }
+
+        .hint-text {
+            font-size: 13px;
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .button-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .open-button {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255, 140, 0, 0.3);
+        }
+
+        .open-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+        }
+
+        .open-button:active {
+            transform: translateY(0);
+        }
+
+        .clear-button {
+            background: #f5f5f5;
+            color: #666;
+            border: 2px solid #ddd;
+            padding: 16px 35px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .clear-button:hover {
+            background: #e8e8e8;
+            border-color: #ccc;
+        }
+
+        .count-display {
+            font-size: 15px;
+            color: #666;
+            padding: 10px 20px;
+            background: #fff5e6;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .count-number {
+            color: #ff8c00;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header, .input-section, .button-section {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .input-section {
+            animation-delay: 0.1s;
+        }
+
+        .button-section {
+            animation-delay: 0.2s;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .notification.show {
+            display: block;
+        }
+
+        .notification.success {
+            border-left: 4px solid #4caf50;
+        }
+
+        .notification.error {
+            border-left: 4px solid #f44336;
+        }
+
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 36px;
+            }
+
+            .orange-icon {
+                width: 50px;
+                height: 50px;
+            }
+
+            .orange-icon::before {
+                font-size: 28px;
+            }
+
+            .input-section, .button-section {
+                padding: 20px;
+            }
+
+            .button-section {
+                flex-direction: column;
+            }
+
+            .open-button, .clear-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <div class="orange-icon"></div>
+            <h1 class="logo-text">NewTabOpen</h1>
+        </div>
+        <p class="subtitle">여러 URL을 한 번에 새 탭으로 열어보세요!</p>
+    </div>
+
+    <div class="container">
+        <div class="input-section">
+            <label class="input-label">URL 목록을 입력하세요</label>
+            <textarea 
+                id="urlInput" 
+                class="url-input" 
+                placeholder="google.com&#10;youtube.com&#10;github.com&#10;www.naver.com&#10;&#10;한 줄에 하나씩 URL을 입력하세요...&#10;http:// 또는 https:// 없이 입력해도 됩니다!"
+            ></textarea>
+            <p class="hint-text">💡 Tip: 각 URL은 한 줄에 하나씩 입력해주세요. http://나 https://가 없어도 자동으로 추가됩니다!</p>
+        </div>
+
+        <div class="button-section">
+            <div class="count-display">
+                URL 개수: <span class="count-number" id="urlCount">0</span>
+            </div>
+            <button class="open-button" onclick="openAllTabs()">
+                🚀 모든 탭 열기
+            </button>
+            <button class="clear-button" onclick="clearInput()">
+                🗑️ 지우기
+            </button>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        const urlInput = document.getElementById('urlInput');
+        const urlCountDisplay = document.getElementById('urlCount');
+        const notification = document.getElementById('notification');
+
+        // URL 개수 업데이트
+        urlInput.addEventListener('input', updateUrlCount);
+
+        function updateUrlCount() {
+            const urls = getValidUrls();
+            urlCountDisplay.textContent = urls.length;
+        }
+
+        function getValidUrls() {
+            const text = urlInput.value;
+            const lines = text.split('\n');
+            const urls = [];
+
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                if (trimmed) {
+                    // 프로토콜이 없으면 https:// 자동 추가
+                    let url = trimmed;
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        // file://, ftp:// 등 다른 프로토콜도 체크
+                        if (!url.includes('://')) {
+                            url = 'https://' + url;
+                        }
+                    }
+                    urls.push(url);
+                }
+            });
+
+            return urls;
+        }
+
+        function openAllTabs() {
+            const urls = getValidUrls();
+
+            if (urls.length === 0) {
+                showNotification('URL을 입력해주세요! 💡', 'error');
+                return;
+            }
+
+            if (urls.length > 20) {
+                if (!confirm(`${urls.length}개의 탭을 열려고 합니다. 계속하시겠습니까?\n(브라우저에서 팝업을 차단할 수 있습니다)`)) {
+                    return;
+                }
+            }
+
+            let openedCount = 0;
+            let failedCount = 0;
+
+            urls.forEach((url, index) => {
+                try {
+                    setTimeout(() => {
+                        const newTab = window.open(url, '_blank');
+                        if (newTab) {
+                            openedCount++;
+                        } else {
+                            failedCount++;
+                        }
+                    }, index * 100); // 100ms 간격으로 열기
+                } catch (e) {
+                    failedCount++;
+                }
+            });
+
+            setTimeout(() => {
+                if (openedCount > 0) {
+                    showNotification(`✅ ${openedCount}개의 탭이 열렸습니다!`, 'success');
+                }
+                if (failedCount > 0) {
+                    showNotification(`⚠️ ${failedCount}개의 URL을 열지 못했습니다. 팝업 차단을 해제해주세요.`, 'error');
+                }
+            }, urls.length * 100 + 200);
+        }
+
+        function clearInput() {
+            if (urlInput.value.trim() !== '') {
+                if (confirm('입력한 내용을 모두 지우시겠습니까?')) {
+                    urlInput.value = '';
+                    updateUrlCount();
+                    showNotification('✨ 입력 내용이 지워졌습니다.', 'success');
+                }
+            }
+        }
+
+        function showNotification(message, type) {
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // 초기 카운트 업데이트
+        updateUrlCount();
+    </script>
+</body>
+</html>
