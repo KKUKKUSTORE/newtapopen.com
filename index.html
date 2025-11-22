@@ -11,6 +11,7 @@
 
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
@@ -19,63 +20,101 @@
         flex-direction: column;
         padding: 20px;
     }
-   textarea {
-    width: 100%;
-    height: 120px;
-    font-family: monospace;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 2px solid #ffcc99;
-    resize: vertical;
-    }
+
     .layout { display: flex; width: 100%; max-width: 1400px; margin: 0 auto; position: relative; }
     .side-ad {
         width: 160px; min-height: 600px; position: sticky; top: 20px; display: none;
     }
     @media (min-width: 1100px) { .side-ad { display: block; } }
+
     .main-content { flex: 1; padding: 0 30px; }
+
     .header { text-align: center; margin-bottom: 40px; padding: 30px 20px; }
-    .logo-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
-    .orange-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(255,140,0,0.3); }
-    .orange-icon::before { content: '🍊'; font-size: 35px; }
-    .logo-text { font-size: 48px; font-weight: bold; background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    .logo-container {
+        display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;
+    }
+
+    .orange-icon {
+        width: 60px; height: 60px;
+        background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 4px 15px rgba(255,140,0,0.3);
+    }
+    .orange-icon::before {
+        content: '🍊'; font-size: 35px;
+    }
+
+    .logo-text {
+        font-size: 48px; font-weight: bold;
+        background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
     .subtitle { color: #666; font-size: 16px; margin-top: 10px; }
-    .container { max-width: 800px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+
+    .container {
+        max-width: 800px; margin: 0 auto; width: 100%; display: flex; flex-direction: column;
+    }
+
     .input-section {
-        background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 30px;
+        background: white; border-radius: 15px;
+        padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
     }
-    .input-label { font-size: 20px; font-weight: 700; color: #333; margin-bottom: 15px; display: block; }
-    .url-input { width: 100%; padding: 15px; border: 2px solid #ffcc99; border-radius: 10px; font-size: 15px; font-family: 'Courier New', monospace; resize: vertical; height: 180px; } 
-    .hint-text { font-size: 13px; color: #888; margin-top: 10px; font-style: italic; }
+
+    .input-label {
+        font-size: 20px; font-weight: 700;
+        color: #333; margin-bottom: 15px; display: block;
+    }
+
+    .url-input {
+        width: 100%; padding: 15px;
+        border: 2px solid #ffcc99; border-radius: 10px;
+        font-size: 15px; font-family: 'Courier New', monospace;
+        resize: vertical; height: 180px;
+    }
+
     .button-section {
-        display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap;
+        display: flex; gap: 15px; justify-content: center;
+        margin-top: 20px; flex-wrap: wrap;
     }
+
     .go-button {
         background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
-        color: white; border: none; padding: 18px 50px; font-size: 18px; font-weight: bold;
+        color: white; border: none; padding: 18px 50px;
+        font-size: 18px; font-weight: bold;
         border-radius: 50px; cursor: pointer; transition: 0.2s;
     }
+
     .clear-button {
-        background: #f5f5f5; color: #666; border: 2px solid #ddd; padding: 16px 35px;
-        font-size: 16px; font-weight: 600; border-radius: 50px; cursor: pointer; transition: 0.2s;
+        background: #f5f5f5; color: #666;
+        border: 2px solid #ddd; padding: 16px 35px;
+        font-size: 16px; font-weight: 600;
+        border-radius: 50px; cursor: pointer; transition: 0.2s;
     }
+
+    .hint-text { font-size: 13px; color: #888; margin-top: 10px; font-style: italic; }
 </style>
 </head>
-<body>
 
+<body>
 <div class="layout">
 
     <!-- Left Sidebar Ad -->
     <div class="side-ad">
-        <ins class="adsbygoogle" style="display:block;width:160px;height:600px"
+        <ins class="adsbygoogle"
+             style="display:block;width:160px;height:600px"
              data-ad-client="ca-pub-2073527346607350"
-             data-ad-slot="REPLACE_LEFT_SLOT"></ins>
+             data-ad-slot="1234567890"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
+
         <div class="header">
             <div class="logo-container">
                 <div class="orange-icon"></div>
@@ -85,11 +124,15 @@
         </div>
 
         <div class="container">
+
             <div class="input-section">
                 <label class="input-label">Enter URLs (one per line, up to 7 lines)</label>
-                <textarea id="urlInput" class="url-input" placeholder="http://example1.com&#10;http://example2.com"></textarea>
+
+                <textarea id="urlInput" class="url-input"
+                    placeholder="http://example1.com&#10;http://example2.com"></textarea>
+
                 <p class="hint-text">Click 'GO' to open all URLs in new tabs or 'Clear' to reset.</p>
-                
+
                 <div class="button-section">
                     <button class="go-button" onclick="openUrls()">GO</button>
                     <button class="clear-button" onclick="clearUrls()">Clear</button>
@@ -101,17 +144,19 @@
                 <ins class="adsbygoogle"
                      style="display:inline-block;width:728px;height:90px"
                      data-ad-client="ca-pub-2073527346607350"
-                     data-ad-slot="REPLACE_MIDDLE_SLOT"></ins>
+                     data-ad-slot="9876543210"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
+
         </div>
     </div>
 
     <!-- Right Sidebar Ad -->
     <div class="side-ad">
-        <ins class="adsbygoogle" style="display:block;width:160px;height:600px"
+        <ins class="adsbygoogle"
+             style="display:block;width:160px;height:600px"
              data-ad-client="ca-pub-2073527346607350"
-             data-ad-slot="REPLACE_RIGHT_SLOT"></ins>
+             data-ad-slot="1357913579"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
@@ -119,15 +164,18 @@
 
 <script>
 function openUrls() {
-    const urls = document.getElementById('urlInput').value.split('\n');
+    const urls = document.getElementById('urlInput').value.split("\n");
+
     urls.forEach(url => {
         const trimmed = url.trim();
-        if(trimmed) window.open(trimmed, '_blank');
+        if (trimmed) {
+            window.open(trimmed, "_blank");
+        }
     });
 }
 
 function clearUrls() {
-    document.getElementById('urlInput').value = '';
+    document.getElementById("urlInput").value = "";
 }
 </script>
 
