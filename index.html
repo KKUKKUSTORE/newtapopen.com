@@ -1,66 +1,109 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>New Tap Open</title>
+<title>Open Multiple URLs</title>
 <style>
     body {
+        margin: 0;
+        padding: 0;
         font-family: Arial, sans-serif;
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 20px;
-        line-height: 1.6;
+        background: #FF7F27; /* 오렌지 배경 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
     }
+
+    .container {
+        margin-top: 40px;
+        width: 90%;
+        max-width: 600px;
+        text-align: center;
+    }
+
+    .orange-img {
+        width: 150px;
+        margin-bottom: 20px;
+    }
+
     textarea {
         width: 100%;
         height: 200px;
+        font-size: 16px;
         padding: 10px;
-        font-size: 16px;
+        border-radius: 6px;
+        border: none;
+        resize: vertical;
     }
+
+    .btn-area {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
     button {
-        padding: 12px 20px;
+        padding: 12px 25px;
         font-size: 16px;
+        border: none;
+        border-radius: 6px;
         cursor: pointer;
-        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    .go-btn {
+        background-color: #ffffff;
+        color: #FF7F27;
+    }
+
+    .clear-btn {
+        background-color: #333;
+        color: #fff;
+    }
+
+    button:hover {
+        opacity: 0.85;
     }
 </style>
 </head>
 <body>
 
-<h2>여러 URL을 새 탭으로 열기</h2>
-<p>아래 입력창에 한 줄에 하나씩 URL을 넣어주세요.</p>
+<div class="container">
 
-<textarea id="urlInput" placeholder="예시:
-https://google.com
-https://naver.com
-"></textarea>
+    <!-- 오렌지 이미지 (원하는 이미지 주소로 변경 가능) -->
+    <img class="orange-img" src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Orange-Fruit-Pieces.jpg" alt="Orange Image">
 
-<br>
-<button onclick="openUrls()">URL 열기</button>
+    <h1>Open Multiple URLs in New Tabs</h1>
+    <p>Enter one URL per line in the field below.</p>
+
+    <textarea id="urlInput" placeholder="https://example.com"></textarea>
+
+    <div class="btn-area">
+        <button class="go-btn" onclick="openURLs()">GO</button>
+        <button class="clear-btn" onclick="clearURLs()">CLEAR</button>
+    </div>
+
+</div>
 
 <script>
-function openUrls() {
-    let text = document.getElementById("urlInput").value.trim();
+function openURLs() {
+    const input = document.getElementById("urlInput").value.trim();
+    if (!input) return;
 
-    if (!text) {
-        alert("URL을 입력해주세요!");
-        return;
-    }
-
-    // 줄 단위로 분리
-    let urls = text.split(/\r?\n/);
+    const urls = input.split("\n").map(u => u.trim()).filter(u => u !== "");
 
     urls.forEach(url => {
-        url = url.trim();
-        if (url === "") return;
-
-        // URL 앞에 http/https 없으면 자동으로 붙여줌
         if (!/^https?:\/\//i.test(url)) {
             url = "https://" + url;
         }
-
-        window.open(url, '_blank');
+        window.open(url, "_blank");
     });
+}
+
+function clearURLs() {
+    document.getElementById("urlInput").value = "";
 }
 </script>
 
